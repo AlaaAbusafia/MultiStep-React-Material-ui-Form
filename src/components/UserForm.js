@@ -2,10 +2,12 @@ import React , { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Stepper, Step, StepLabel, Button } from '@material-ui/core';
 import SignUpStep from './SignUpStep';
+import ChoosePlan from './ChoosePlan';
+import Checkout from './Checkout';
 
 const useStyles = makeStyles({
     root: {
-        width: '50%',
+        width: '80%',
         margin: '6rem auto',
         border: '1px solid #ccc',
         "& .MuiStepIcon-root.MuiStepIcon-active": {
@@ -14,7 +16,7 @@ const useStyles = makeStyles({
         "& .MuiStepIcon-root.MuiStepIcon-completed": {
             color: "green"
         }
-    },
+    }
 
 });
 
@@ -33,16 +35,16 @@ const UserForm = () => {
     function getStepsContent(stepIndex) {
         switch(stepIndex) {
             case 0: 
-                return "Step One (SIGN UP)";
+                return <SignUpStep />;
             
             case 1: 
-                return "Step Two (CHOOSE PLAN)";
+                return <ChoosePlan />;
             
             case 2: 
-                return "Step Three (CHECKOUT)";
+                return <Checkout />;
             
             default:
-                return "UNknown Step!";
+                return "Unknown Step!";
 
         }
     }
