@@ -1,15 +1,21 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import IntlTelInput from 'react-intl-tel-input';
+import 'react-intl-tel-input/dist/main.css';
+import './SignUpStep.css';
 
 import {
     Typography,
     Button, 
+    Grid,
     Checkbox,
     TextField,
-    OutlinedINput,
+    OutlinedInput,
     FormControl,
-    InputLabel,
-    Grid
+    InputLabel, 
+    InputAdornment,
+    IconButton, 
+    
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -50,6 +56,24 @@ const SignUpStep = () => {
                     <TextField className={styles.textInput}
                             label= "Last Name"
                             variant= "outlined" />
+                    <IntlTelInput
+                        preferredCountries= {['nz']}
+                    />
+                    <TextField className={styles.textInput}
+                            label= "Email"
+                            variant= "outlined" />
+                    
+                    <FormControl>
+                        <InputLabel>Password</InputLabel>
+                        <OutlinedInput
+                            labelWidth={70}
+                            endAdornment={
+                                <InputAdornment position='end'>
+                                    <IconButton edge='end' />
+                                </InputAdornment>
+                            }
+                        />
+                    </FormControl>
                     
                 </form>
             </div>
