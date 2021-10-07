@@ -2,10 +2,11 @@
 .intl-tel-input.allow-dropdown input[type=text], 
 .intl-tel-input.allow-dropdown input[type=tel] {
   position: "relative";
-  width: 28.1rem;
+  width: 27rem;
   height: 0;
   padding: 1.75rem 3rem;
   border-radius: .3rem;
   border: 1px solid #ccc;
   margin-bottom: 1rem !important;
+  font-size: 1.2em;
 }

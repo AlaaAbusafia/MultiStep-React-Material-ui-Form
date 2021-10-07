@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import IntlTelInput from 'react-intl-tel-input';
 import 'react-intl-tel-input/dist/main.css';
@@ -14,9 +14,13 @@ import {
     FormControl,
     InputLabel, 
     InputAdornment,
-    IconButton, 
-    
+    IconButton
 } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import SendSharpIcon from '@material-ui/icons/SendSharp';
+
+    
 
 const useStyles = makeStyles({
     mainContainer: {
@@ -32,13 +36,43 @@ const useStyles = makeStyles({
 
     },
     textInput: {
-        width: '100%',
+        width: '96%',
         marginBottom: '1rem'
+    },
+    btn: {
+        width: '100%',
+        color: 'white',
+        height: '3rem',
+        background: 'red',
+        "&:hover":{
+             background: '#333',
+        }
     }
 });
 
 
 const SignUpStep = () => {
+    //Add Hooks
+    const [ showPasswordValue, setShowPasswordValue ] = useState({
+        showPassword: false
+    });
+
+    const [ showConfirmPasswordValue, setShowConfirmPasswordValue ] = useState({
+        showConfirmPassword: false
+    });
+
+    const handleClickShowPassword = () =>{
+        setShowPasswordValue({
+            showPassword: !showPasswordValue.showPassword
+        })
+    }
+
+    const handleClickShowConfirmPassword = () =>{
+        setShowConfirmPasswordValue({
+            showConfirmPassword: !showConfirmPasswordValue.showConfirmPassword
+        })
+    }
+
     const styles = useStyles();
     return (
         <div className={styles.mainContainer}>
@@ -63,17 +97,47 @@ const SignUpStep = () => {
                             label= "Email"
                             variant= "outlined" />
                     
-                    <FormControl>
+                    <FormControl className={styles.textInput} >
                         <InputLabel>Password</InputLabel>
                         <OutlinedInput
                             labelWidth={70}
+                            type={showPasswordValue.showPassword? "text" : "password"}
                             endAdornment={
                                 <InputAdornment position='end'>
-                                    <IconButton edge='end' />
+                                    <IconButton 
+                                        edge='end'
+                                        onClick={handleClickShowPassword} >
+                                            {showPasswordValue.showPassword? <Visibility /> : <VisibilityOff /> }
+                                    </IconButton>
                                 </InputAdornment>
                             }
                         />
                     </FormControl>
+                    <FormControl className={styles.textInput} >
+                        <InputLabel>Confirm Password</InputLabel>
+                        <OutlinedInput
+                            labelWidth={70}
+                            type={showConfirmPasswordValue.showConfirmPassword? "text" : "password"}
+                            endAdornment={
+                                <InputAdornment position='end'>
+                                    <IconButton 
+                                        edge='end'
+                                        onClick={handleClickShowConfirmPassword} >
+                                            {showConfirmPasswordValue.showConfirmPassword? <Visibility /> : <VisibilityOff /> }
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        />
+                    </FormControl>
+                    <>
+                        <Button
+                            className={styles.btn}
+                            variant="contained"
+                            type="submit"
+                            endIcon= {<SendSharpIcon />}
+                        >
+                            SIGN UP</Button>
+                    </>
                     
                 </form>
             </div>
