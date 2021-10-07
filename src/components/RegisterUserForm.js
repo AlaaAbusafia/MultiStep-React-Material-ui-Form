@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 });
 
-const UserForm = () => {
+const RegisterUserForm = () => {
     //React Hooks
     const [activeStep, setActiveStep] = useState(0);
 
@@ -79,4 +79,4 @@ const UserForm = () => {
 }
 
 
-export default UserForm;
+export default RegisterUserForm;

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import IntlTelInput from 'react-intl-tel-input';
+import useForm from './useForm';
 import 'react-intl-tel-input/dist/main.css';
 import './SignUpStep.css';
 
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
     },
     textInput: {
         width: '96%',
-        marginBottom: '1rem'
+        margin: '1rem 0'
     },
     btn: {
         width: '100%',
@@ -47,11 +48,63 @@ const useStyles = makeStyles({
         "&:hover":{
              background: '#333',
         }
+    },
+    errorMsg: {
+        marginTop: '-1rem',
+        color: 'red',
+        fontSize: '1rem',
+        fontWeight: '200'
     }
 });
 
 
 const SignUpStep = () => {
+    //Define The state Schema
+    const stateSchema = {
+        firstname: {value: "", error: ""},
+        lastname: {value: "", error: ""},
+        email: {value: "", error: ""},
+        password: {value: "", error: ""},
+        confirmPassword: {value: "", error: ""}
+    }
+
+    const stateValidatorSchema = {
+        firstname: {
+            required: true,
+            validator: {
+                func: value => /^([A-Za-z][A-Za-z'-])+([A-Za-z][A-Za-z'-]+)*/.test(value),
+                error: "Firstname must be  more than ONE character"
+             }
+        },
+        lastname: {
+            required: true,
+            validator: {
+                func: value => /^([A-Za-z][A-Za-z'-])+([A-Za-z][A-Za-z'-])+([A-Za-z][A-Za-z'-])*/.test(value),
+                error: "Lastname must be  more than THREE characters"
+             }
+        },
+        email: {
+            required: true,
+            validator: {
+                func: value => /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(value),
+                error: "Invalid email address"
+             }
+        },
+        password: {
+            required: true,
+            validator: {
+                func: value => /^(?=.*[A-Za-z])(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(value),
+                error: "Must include special character and at least 6 charachters"
+             }
+        }
+    }
+
+    const {
+        values,
+        errors,
+        dirty,
+        handleOnChange } = useForm(stateSchema, stateValidatorSchema);
+
     //Add Hooks
     const [ showPasswordValue, setShowPasswordValue ] = useState({
         showPassword: false
@@ -73,6 +126,8 @@ const SignUpStep = () => {
         })
     }
 
+    const { firstname, lastname, email, password, confirmPassword } = values;
+
     const styles = useStyles();
     return (
         <div className={styles.mainContainer}>
@@ -86,17 +141,43 @@ const SignUpStep = () => {
                 <form>
                     <TextField className={styles.textInput} 
                             label= "First Name"
-                            variant= "outlined" />
+                            variant= "outlined"
+                            name="firstname"
+                            value= {firstname}
+                            onChange={handleOnChange}
+                    />
+                    {errors.firstname && dirty.firstname && (
+                        <Typography className= {styles.errorMsg}>
+                            {errors.firstname}
+                        </Typography>
+                    )}
                     <TextField className={styles.textInput}
                             label= "Last Name"
-                            variant= "outlined" />
+                            variant= "outlined" 
+                            name="lastname"
+                            value= {lastname}
+                            onChange={handleOnChange}
+                    />
+                    {errors.lastname && dirty.lastname && (
+                        <Typography className= {styles.errorMsg}>
+                            {errors.lastname}
+                        </Typography>
+                    )}
                     <IntlTelInput
                         preferredCountries= {['nz']}
                     />
                     <TextField className={styles.textInput}
                             label= "Email"
-                            variant= "outlined" />
-                    
+                            variant= "outlined"
+                            name="email"
+                            value= {email}
+                            onChange={handleOnChange}
+                    />
+                    {errors.email && dirty.email && (
+                        <Typography className= {styles.errorMsg}>
+                            {errors.email}
+                        </Typography>
+                    )}
                     <FormControl className={styles.textInput} >
                         <InputLabel>Password</InputLabel>
                         <OutlinedInput
@@ -111,8 +192,16 @@ const SignUpStep = () => {
                                     </IconButton>
                                 </InputAdornment>
                             }
+                            name="password"
+                            value= {password}
+                            onChange={handleOnChange}
                         />
                     </FormControl>
+                    {errors.password && dirty.password && (
+                        <Typography className= {styles.errorMsg}>
+                            {errors.password}
+                        </Typography>
+                    )}
                     <FormControl className={styles.textInput} >
                         <InputLabel>Confirm Password</InputLabel>
                         <OutlinedInput
@@ -127,8 +216,14 @@ const SignUpStep = () => {
                                     </IconButton>
                                 </InputAdornment>
                             }
+                            name="confirmPassword"
+                            value= {confirmPassword}
+                            onChange={handleOnChange}
                         />
                     </FormControl>
+                    {confirmPassword !== password ? 
+                        <Typography className= {styles.errorMsg}>Passwords don't match</Typography> : null
+                    }
                     <>
                         <Button
                             className={styles.btn}
