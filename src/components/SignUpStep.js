@@ -63,7 +63,7 @@ const useStyles = makeStyles({
 });
 
 
-const SignUpStep = () => {
+const SignUpStep = ({ handleNext, activeStep, steps}) => {
     //Define The state Schema
     const stateSchema = {
         firstname: {value: "", error: ""},
@@ -244,17 +244,20 @@ const SignUpStep = () => {
                             disabled
                             endIcon= {<BlockSharpIcon />}
                         >
-                            SIGN UP</Button>
+                            {activeStep === steps.length ? " Finish" : "SIGN UP"}
+                            </Button>
                         )
                         :
                         (
                              <Button
                             className={styles.btn}
                             variant="contained"
+                            onClick={handleNext}
                             type="submit"
                             endIcon= {<SendSharpIcon />}
                         >
-                            SIGN UP</Button>
+                            {activeStep === steps.length ? " Finish" : "SIGN UP"}
+                            </Button>
 
                         )
                     }

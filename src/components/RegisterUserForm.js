@@ -28,14 +28,21 @@ const RegisterUserForm = () => {
         return ["SIGN UP" , "CHOOSE PLAN", "CHECKOUT"];
     }
 
-    const HandleNextStep = () => {
+    const handleNextStep = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1)
     }
 
     function getStepsContent(stepIndex) {
         switch(stepIndex) {
             case 0: 
-                return <SignUpStep />;
+                return (
+                    <SignUpStep
+                        handleNext={handleNextStep}
+                        activeStep={activeStep}
+                        steps={steps}
+
+                    />
+                );
             
             case 1: 
                 return <ChoosePlan />;
@@ -63,7 +70,7 @@ const RegisterUserForm = () => {
                 {activeStep === steps.length ? "Thank you, Your registeration is Completed!" : (
                     <>
                         {getStepsContent(activeStep)}
-                        <Button onClick={HandleNextStep}>
+                        <Button onClick={handleNextStep}>
                             {activeStep === steps.length ? " Finish" : "Next"}
                         </Button>
                     </>
