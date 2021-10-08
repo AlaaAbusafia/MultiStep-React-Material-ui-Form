@@ -7,9 +7,7 @@ import './SignUpStep.css';
 
 import {
     Typography,
-    Button, 
-    Grid,
-    Checkbox,
+    Button,
     TextField,
     OutlinedInput,
     FormControl,
@@ -20,6 +18,7 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import SendSharpIcon from '@material-ui/icons/SendSharp';
+import BlockSharpIcon from '@material-ui/icons/BlockSharp';
 
     
 
@@ -48,6 +47,12 @@ const useStyles = makeStyles({
         "&:hover":{
              background: '#333',
         }
+    },
+    disabledBtn: {
+        background: "rgba(0,0,0, 0.38",
+        width: '100%',
+        color: 'white',
+        height: '3rem'
     },
     errorMsg: {
         marginTop: '-1rem',
@@ -224,15 +229,37 @@ const SignUpStep = () => {
                     {confirmPassword !== password ? 
                         <Typography className= {styles.errorMsg}>Passwords don't match</Typography> : null
                     }
-                    <>
-                        <Button
+                    {
+                        !firstname ||
+                        !lastname ||
+                        !email ||
+                        !password ||
+                        !confirmPassword ||
+                        confirmPassword !== password
+                        ?
+                        (
+                            <Button
+                            className={styles.disabledBtn}
+                            variant="contained"
+                            disabled
+                            endIcon= {<BlockSharpIcon />}
+                        >
+                            SIGN UP</Button>
+                        )
+                        :
+                        (
+                             <Button
                             className={styles.btn}
                             variant="contained"
                             type="submit"
                             endIcon= {<SendSharpIcon />}
                         >
                             SIGN UP</Button>
-                    </>
+
+                        )
+                    }
+                        
+                    
                     
                 </form>
             </div>
